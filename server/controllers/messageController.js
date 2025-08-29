@@ -7,7 +7,7 @@ import { io, userSocketMap } from '../server.js';
 export const getUsersForSidebar = async (req, res)=>{
     try {
         const userId = req.user._id;
-        const filteredUsers = await UserActivation.find({_id: {$ne: userId}}).select("-password");
+        const filteredUsers = await User.find({_id: {$ne: userId}}).select("-password");
 
         // Count number of messages not seen
         const unseenMessages = {}
@@ -29,7 +29,7 @@ export const getUsersForSidebar = async (req, res)=>{
 export const getMessages = async (req, res) =>{
     try {
         const { id:selectedUserId } = req.params;
-        const myId = req.user._idl
+        const myId = req.user._id
         const messages = await Message.find({
             $or: [
                 {senderId: myId, receiverId: selectedUserId},
